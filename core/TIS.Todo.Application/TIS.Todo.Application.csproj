@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\infrastructure\TIS.Todo.Data\TIS.Todo.Data.csproj" />
+    <ProjectReference Include="..\TIS.Todo.Domain\TIS.Todo.Domain.csproj" />
+  </ItemGroup>
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+</Project>
