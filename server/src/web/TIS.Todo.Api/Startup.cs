@@ -26,6 +26,7 @@ namespace TIS.Todo.Api
 
         public void ConfigureServices(IServiceCollection services)
         {
+           
 
             services.AddControllers();
             services.AddSwaggerGen(c =>
@@ -36,6 +37,12 @@ namespace TIS.Todo.Api
             services.AddDbContext<DataContext>(opt =>
             {
                 opt.UseInMemoryDatabase(databaseName: "TIS.Todo.Db.InMemory");
+            });
+
+             services.AddCors( opt => {
+                opt.AddPolicy("CorsPolicy", policy => {
+                    policy.AllowAnyMethod().AllowAnyHeader().WithOrigins("http://localhost:3001");
+                });
             });
         }
 
@@ -52,6 +59,8 @@ namespace TIS.Todo.Api
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            app.UseCors("CorsPolicy");
 
             app.UseAuthorization();
 
