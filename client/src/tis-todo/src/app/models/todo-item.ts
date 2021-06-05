@@ -3,10 +3,10 @@ import { TodoCategory } from "./todo-category";
 export interface TodoItem {
     id: string;
     title: string;
-    createdAt: Date;
-    dueAt: Date;
+    createdAt: string;
+    dueAt: string;
     isComplete: boolean;
     creatorId: string;
     categoryId: number;
-    category: TodoCategory;
+    categoryName: string;
 }

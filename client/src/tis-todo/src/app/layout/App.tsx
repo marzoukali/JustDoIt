@@ -1,31 +1,32 @@
-import React, { Fragment, useEffect, useState } from 'react';
-import axios from 'axios';
-import { Container, Header, List } from 'semantic-ui-react';
-import {TodoItem} from '../models/todo-item'
+import { useEffect } from 'react';
+import { Container } from 'semantic-ui-react';
 import Navbar from '../layout/Navbar'
+import TodoDashboard from '../../features/todos/dashboard/TodoDashboard'
+import LoadingComponent from '../layout/LoadingComponent'
+import { useStore } from '../stores/store';
+import { observer } from 'mobx-react-lite';
 
 
 function App() {
-  const [todoCategories, setTodoItems] = useState<TodoItem[]>([]);
+
+  const {todoStore} = useStore();
 
   useEffect(() => {
-    axios.get<TodoItem[]>('https://localhost:5301/api/UserTodos').then(res => {
-      setTodoItems(res.data);
-    })
-  }, [])
+    todoStore.loadTodoItems();
+  }, [todoStore])
+
+
+
+  if(todoStore.loadingInitial) return <LoadingComponent content='Loading app' />
 
   return (
-    <Fragment>
+    <>
       <Navbar />
       <Container style={{marginTop: '7em'}}>
-      <List>
-          {todoCategories.map(todoItem  => (
-            <List.Item key={todoItem.id}>{todoItem.title}</List.Item>
-          ))}
-        </List>
+        <TodoDashboard />
       </Container>
-    </Fragment>
+    </>
   );
 }
 
-export default App;
+export default observer(App);
