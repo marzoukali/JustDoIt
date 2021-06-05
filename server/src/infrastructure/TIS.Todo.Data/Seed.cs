@@ -10,24 +10,53 @@ namespace TIS.Todo.Data
     {
         public static async Task SeedData(DataContext context)
         {
-            if (context.TodoCategories.Any()) return;
-            
-            var categories = new List<TodoCategory>
+            if (!context.TodoCategories.Any())
             {
-                new TodoCategory
+                var categories = new List<TodoCategory>
                 {
-                    Title = "Technical",
-                    CreatedAt = DateTime.Now.AddMonths(-2),
-                    Description = "My Technical Todos",
-                },
-                new TodoCategory
+                    new TodoCategory
+                   {
+                      Id = 1,
+                      Title = "Technical",
+                      Description = "My Technical Todos",
+                    },
+                    new TodoCategory
+                    {
+                      Id = 2,
+                      Title = "Family",
+                      Description = "Family Duites",
+                    },
+                 };
+                await context.TodoCategories.AddRangeAsync(categories);
+            }
+
+
+            if (!context.TodoCategories.Any())
+            {
+                var todos = new List<TodoItem>
                 {
-                    Title = "Family",
-                    CreatedAt = DateTime.Now.AddMonths(-2),
-                    Description = "Family Tasks",
-                },
-            };
-            await context.TodoCategories.AddRangeAsync(categories);
+                    new TodoItem
+                   {
+                      Id = new Guid("a3912bd7-e7e4-437c-8765-1544b16e62fe"),
+                      Title = "Finalize Elastic Search!",
+                      CreatedAt = DateTime.Now,
+                      CategoryId = 1,
+                      DueAt = DateTime.Now.AddDays(2),
+                      IsComplete = false,
+                    },
+                    new TodoItem
+                    {
+                      Id = new Guid("9343119a-1748-453e-9fcb-d26545a8beed"),
+                      Title = "Getting a present for my girlfriend!",
+                      CreatedAt = DateTime.Now,
+                      CategoryId = 2,
+                      DueAt = DateTime.Now.AddDays(5),
+                      IsComplete = false,
+                    },
+                 };
+                await context.TodoItems.AddRangeAsync(todos);
+            }
+            
             await context.SaveChangesAsync();
         }
     }

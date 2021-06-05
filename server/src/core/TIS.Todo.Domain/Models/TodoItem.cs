@@ -10,7 +10,7 @@ namespace TIS.Todo.Domain.Models
         public DateTimeOffset? DueAt { get; set; }
         public bool IsComplete { get; set; }
         public Guid CreatorId { get; set; }
-        public Guid CategoryId { get; set; }
-        public TodoCategory Category { get; set; }
+        public int? CategoryId { get; set; }
+        public TodoCategory Category { get; }
     }
 }
