@@ -9,12 +9,12 @@ namespace TIS.Todo.Application.UserTodos
 {
     public class Details
     {
-        public class Query : IRequest<TodoItem>
+        public class Query : IRequest<Result<TodoItem>>
         {
             public Guid Id { get; set; }
         }
 
-        public class Handler : IRequestHandler<Query, TodoItem>
+        public class Handler : IRequestHandler<Query, Result<TodoItem>>
         {
             private readonly DataContext _context;
 
@@ -24,9 +24,11 @@ namespace TIS.Todo.Application.UserTodos
             }
 
 
-            public async Task<TodoItem> Handle(Query request, CancellationToken cancellationToken)
+            public async Task<Result<TodoItem>> Handle(Query request, CancellationToken cancellationToken)
             {
-                return await _context.TodoItems.FindAsync(request.Id);
+                var todoItem = await _context.TodoItems.FindAsync(request.Id);
+
+                return Result<TodoItem>.Success(todoItem);
             }
         }
         

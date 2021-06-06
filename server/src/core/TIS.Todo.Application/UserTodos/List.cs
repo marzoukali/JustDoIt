@@ -10,9 +10,9 @@ namespace TIS.Todo.Application.UserTodos
 {
     public class List
     {
-        public class Query : IRequest<List<TodoItem>>{}
+        public class Query : IRequest<Result<List<TodoItem>>>{}
 
-        public class Handler : IRequestHandler<Query, List<TodoItem>>
+        public class Handler : IRequestHandler<Query, Result<List<TodoItem>>>
         {
             private readonly DataContext _context;
 
@@ -21,9 +21,9 @@ namespace TIS.Todo.Application.UserTodos
                 _context = context;
             }
 
-            public async Task<List<TodoItem>> Handle(Query request, CancellationToken cancellationToken)
+            public async Task<Result<List<TodoItem>>> Handle(Query request, CancellationToken cancellationToken)
             {
-                return await _context.TodoItems.ToListAsync();
+                return Result<List<TodoItem>>.Success(await _context.TodoItems.ToListAsync());
             }
         }
     }

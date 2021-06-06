@@ -9,12 +9,12 @@ namespace TIS.Todo.Application.UserTodos
 {
     public class Delete
     {
-        public class Command : IRequest
+        public class Command : IRequest<Result<Unit>>
         { 
             public Guid Id {get; set;}
         }
 
-        public class Handler : IRequestHandler<Command>
+        public class Handler : IRequestHandler<Command, Result<Unit>>
         {
              private readonly DataContext _context;
 
@@ -23,15 +23,20 @@ namespace TIS.Todo.Application.UserTodos
                 _context = context;
             }
 
-            public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
+            public async Task<Result<Unit>> Handle(Command request, CancellationToken cancellationToken)
             {
                 var item =  await _context.TodoItems.FindAsync(request.Id);
+                
+                if(item == null) return null;
 
                  _context.Remove(item);
 
-                await _context.SaveChangesAsync();
+                var isDeleted = await _context.SaveChangesAsync() > 0;
 
-                 return Unit.Value;
+                 if(!isDeleted)
+                  return Result<Unit>.Failure("Error happened while deleting todo item");
+
+                 return Result<Unit>.Success(Unit.Value);
             }
         }
     }
