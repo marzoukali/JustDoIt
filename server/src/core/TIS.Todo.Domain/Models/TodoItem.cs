@@ -11,7 +11,6 @@ namespace TIS.Todo.Domain.Models
         public DateTime? DueAt { get; set; }
         public bool IsComplete { get; set; }
         public Guid CreatorId { get; set; }
-        public int? CategoryId { get; set; }
-        public TodoCategory Category { get; }
+        public string Category { get; set; }
     }
 }

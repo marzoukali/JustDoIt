@@ -78,6 +78,8 @@ export default class TodoStore{
     updateTodoItem = async (todoItem: TodoItem) => {
         this.loading = true;
         try{
+            console.log('test1');
+            console.log(todoItem);
             await agent.TodoItems.update(todoItem);
             runInAction(() => {
                 this.todosRegistery.set(todoItem.id, todoItem);

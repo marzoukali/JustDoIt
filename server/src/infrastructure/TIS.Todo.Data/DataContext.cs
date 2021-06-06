@@ -9,18 +9,13 @@ namespace TIS.Todo.Data
         {
         }
         public DbSet<TodoItem> TodoItems { get; set; }
-        public DbSet<TodoCategory> TodoCategories { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
-            builder.Entity<TodoItem>()
-                .HasOne(a => a.Category)
-                .WithMany(a => a.Todos)
-                .HasForeignKey(a => a.CategoryId)
-                .OnDelete(DeleteBehavior.Cascade);
-           
-                base.OnModelCreating(builder);
+            builder.Entity<TodoItem>();
+
+            base.OnModelCreating(builder);
         }
 
     }

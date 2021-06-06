@@ -15,7 +15,7 @@ export default function TodoDetails(){
                 <Card.Meta>
                     <span className='date'>{todoStore.selectedTodoItem!.createdAt}</span>
                 </Card.Meta>
-                <Card.Description>Matthew is a musician living in Nashville.</Card.Description>
+                <Card.Description>{todoStore.selectedTodoItem!.description}</Card.Description>
             </Card.Content>
             <Card.Content extra>
                <Button.Group widths='2'>
