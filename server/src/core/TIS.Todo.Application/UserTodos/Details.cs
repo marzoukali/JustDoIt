@@ -31,6 +31,5 @@ namespace TIS.Todo.Application.UserTodos
                 return Result<TodoItem>.Success(todoItem);
             }
         }
-        
     }
 }

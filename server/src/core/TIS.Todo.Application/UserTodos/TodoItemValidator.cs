@@ -7,8 +7,8 @@ namespace TIS.Todo.Application.UserTodos
     {
         public TodoItemValidator()
         {
-            RuleFor( x => x.Title).NotEmpty();
-            RuleFor( x => x.CreatedAt).NotEmpty();
+            RuleFor(x => x.Title).NotEmpty();
+            RuleFor(x => x.CreatedAt).NotEmpty();
         }
     }
 }

@@ -5,7 +5,7 @@ namespace TIS.Todo.Domain.Models
         Technical,
         Family,
         Friends,
-        Music, 
+        Music,
         Travel,
         Other
     }

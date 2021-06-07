@@ -15,18 +15,19 @@ namespace TIS.Todo.Api.Extensions
         {
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "TIS.Todo.Api", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo {Title = "TIS.Todo.Api", Version = "v1"});
             });
 
-            services.AddDbContext<DataContext>(opt =>
+            services.AddDbContext<DataContext>(opt => { opt.UseInMemoryDatabase("TIS.Todo.Db.InMemory"); });
+
+            services.AddCors(opt =>
             {
-                opt.UseInMemoryDatabase(databaseName: "TIS.Todo.Db.InMemory");
-            });
-
-             services.AddCors( opt => {
-                opt.AddPolicy("CorsPolicy", policy => {
-                    policy.AllowAnyMethod().AllowAnyHeader().WithOrigins("http://localhost:3000","http://localhost:3001");
-                });            
+                opt.AddPolicy("CorsPolicy",
+                    policy =>
+                    {
+                        policy.AllowAnyMethod().AllowAnyHeader()
+                            .WithOrigins("http://localhost:3000", "http://localhost:3001");
+                    });
             });
 
             services.AddMediatR(typeof(List.Handler).Assembly);

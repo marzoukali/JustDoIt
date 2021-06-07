@@ -10,7 +10,9 @@ namespace TIS.Todo.Application.UserTodos
 {
     public class List
     {
-        public class Query : IRequest<Result<List<TodoItem>>>{}
+        public class Query : IRequest<Result<List<TodoItem>>>
+        {
+        }
 
         public class Handler : IRequestHandler<Query, Result<List<TodoItem>>>
         {
