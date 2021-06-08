@@ -15,7 +15,11 @@ namespace TIS.Todo.Api.Extensions
         public static IServiceCollection AddIdentityServices(this IServiceCollection services,
             IConfiguration config)
         {
-            services.AddIdentityCore<AppUser>(opt => { opt.Password.RequireNonAlphanumeric = false; })
+            services.AddIdentityCore<AppUser>(opt =>
+                {
+                    opt.Password.RequireNonAlphanumeric = false;
+                    opt.Password.RequireUppercase = false;
+                })
                 .AddEntityFrameworkStores<DataContext>()
                 .AddSignInManager<SignInManager<AppUser>>()
                 .AddDefaultTokenProviders();
@@ -36,7 +40,9 @@ namespace TIS.Todo.Api.Extensions
                     };
                 });
 
-            services.AddAuthorization(opt => { });
+            services.AddAuthorization(opt =>
+            {
+            });
             services.AddScoped<TokenService>();
             return services;
         }
