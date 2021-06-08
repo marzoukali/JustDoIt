@@ -1,6 +1,9 @@
 # JustDoIt
 Simple online TODO list.
 
+# How to setup (Video):
+- https://youtu.be/vNgDAJTOkKg
+
 # Technologies:
 - .NET5 (Including EF, AspCore APIs) For backend (FluentValidations, MediatR, Moq, FluentAssertions).
 - ReactJs with Typescript for frontend.
@@ -25,6 +28,9 @@ Simple online TODO list.
 
 # Testing:
 - I made some unit tests for backend and in real life we should cover all the business logic backend and frontend.
+
+# How to setup:
+- Video: https://youtu.be/vNgDAJTOkKg
 
 # Setup the backend with VisualStudio:
 - Make sure to have Visual Studio that supports .Net Core.
