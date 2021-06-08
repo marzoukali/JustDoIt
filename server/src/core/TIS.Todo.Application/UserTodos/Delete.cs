@@ -2,7 +2,7 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
-using TIS.Todo.Data;
+using TIS.Todo.Application.Interfaces.IRepositories;
 using TIS.Todo.Domain.Models;
 
 namespace TIS.Todo.Application.UserTodos
@@ -16,22 +16,20 @@ namespace TIS.Todo.Application.UserTodos
 
         public class Handler : IRequestHandler<Command, Result<Unit>>
         {
-            private readonly DataContext _context;
+            private readonly IAsyncRepository<TodoItem> _toDoRepository;
 
-            public Handler(DataContext context)
+            public Handler(IAsyncRepository<TodoItem> toDoRepository)
             {
-                _context = context;
+                _toDoRepository = toDoRepository;
             }
 
             public async Task<Result<Unit>> Handle(Command request, CancellationToken cancellationToken)
             {
-                var item = await _context.TodoItems.FindAsync(request.Id);
+                var item = await _toDoRepository.GetByIdAsync(request.Id);
 
                 if (item == null) return null;
 
-                _context.Remove(item);
-
-                var isDeleted = await _context.SaveChangesAsync() > 0;
+                var isDeleted = await _toDoRepository.DeleteAsync(item) > 0;
 
                 if (!isDeleted)
                     return Result<Unit>.Failure("Error happened while deleting todo item");

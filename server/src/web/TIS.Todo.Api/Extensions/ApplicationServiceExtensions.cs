@@ -4,8 +4,14 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
 using TIS.Todo.Application;
+using TIS.Todo.Application.Interfaces;
+using TIS.Todo.Application.Interfaces.IRepositories;
 using TIS.Todo.Application.UserTodos;
 using TIS.Todo.Data;
+using TIS.Todo.Data.Repositories;
+using TIS.Todo.Domain.Interfaces;
+using TIS.Todo.Domain.Interfaces.IRepositories;
+using TLS.Todo.Infrastructure.Security;
 
 namespace TIS.Todo.Api.Extensions
 {
@@ -31,8 +37,12 @@ namespace TIS.Todo.Api.Extensions
             });
 
             services.AddMediatR(typeof(List.Handler).Assembly);
-
             services.AddAutoMapper(typeof(MappingProfiles).Assembly);
+            services.AddScoped<IUserAccessor, UserAccessor>();
+            services.AddScoped(typeof(IRepository<>), typeof(GenericRepository<>));
+            services.AddScoped(typeof(IAsyncRepository<>), typeof(GenericRepository<>));
+            services.AddScoped<IToDosRepository, ToDosRepository>();
+            services.AddScoped<IAppUserRepository, AppUserRepository>();
 
             return services;
         }

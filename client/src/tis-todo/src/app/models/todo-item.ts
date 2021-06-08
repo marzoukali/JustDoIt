@@ -5,6 +5,7 @@ export interface TodoItem {
     title: string;
     description: string;
     createdAt: string;
+    lastUpdatedAt: string;
     dueAt: string;
     isComplete: boolean;
     creatorId: string;

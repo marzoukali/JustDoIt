@@ -12,10 +12,10 @@ import LoadingComponent from '../../../app/layout/LoadingComponent'
 
 export default observer(function TodoDashboard(){
     
-    const {todoStore} = useStore();
+    const {todoStore, userStore} = useStore();
 
     useEffect(() => {
-      todoStore.loadTodoItems();
+      todoStore.loadTodoItems(userStore.user?.userId!);
     }, [todoStore])
   
   

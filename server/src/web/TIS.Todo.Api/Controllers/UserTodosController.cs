@@ -2,11 +2,14 @@ using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using TIS.Todo.Api.Attributes;
+using TIS.Todo.Api.DTOs;
 using TIS.Todo.Application.UserTodos;
-using TIS.Todo.Domain.Models;
 
 namespace TIS.Todo.Api.Controllers
 {
+    [Route("api/{user-id}/todos")]
+    [AuthorizeUserForOwnedResources]
     public class UserTodosController : BaseApiController
     {
         private readonly ILogger<UserTodosController> _logger;
@@ -20,7 +23,9 @@ namespace TIS.Todo.Api.Controllers
         [HttpGet]
         public async Task<IActionResult> GetTodoItems()
         {
-            return HandleResult(await Mediator.Send(new List.Query()));
+            var userId = RouteData.Values["user-id"]?.ToString();
+
+            return HandleResult(await Mediator.Send(new List.Query {UserId = userId}));
         }
 
         [HttpGet("{id}")]
@@ -30,17 +35,23 @@ namespace TIS.Todo.Api.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateTodoItem(TodoItem todo)
+        public async Task<IActionResult> CreateTodoItem(ToDoCreateRequest todo)
         {
-            return HandleResult(await Mediator.Send(new Create.Command {TodoItem = todo}));
+            var userId = RouteData.Values["user-id"]?.ToString();
+
+            return HandleResult(await Mediator.Send(new Create.Command {TodoItem = todo, UserId = userId}));
         }
 
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> EditTodoItem(Guid id, TodoItem todo)
+        public async Task<IActionResult> EditTodoItem(Guid id, ToDoEditRequest todo)
         {
-            todo.Id = id;
-            return HandleResult(await Mediator.Send(new Edit.Command {TodoItem = todo}));
+            var userId = RouteData.Values["user-id"]?.ToString();
+            var todoId = RouteData.Values["id"]?.ToString();
+
+
+            return HandleResult(
+                await Mediator.Send(new Edit.Command {TodoItem = todo, UserId = userId, TodoId = todoId}));
         }
 
 

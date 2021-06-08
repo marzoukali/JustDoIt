@@ -6,15 +6,13 @@ import { useStore } from '../../../app/stores/store';
 
 
 export default observer(function TodoList(){
-    const {todoStore} = useStore();
+    const {todoStore, userStore} = useStore();
     const [target, setTarget] = useState('');
 
     function handleTodoItemDelete(e: SyntheticEvent<HTMLButtonElement>, id: string) {
         setTarget(e.currentTarget.name);
-        todoStore.deleteTodoItem(id);
+        todoStore.deleteTodoItem(userStore.user?.userId!, id);
     }
-
-
     
     return (
         <Segment>
@@ -23,9 +21,10 @@ export default observer(function TodoList(){
                     <Item key={item.id}>
                         <Item.Content>
                             <Item.Header as='a'>{item.title}</Item.Header>
-                            <Item.Meta>{item.createdAt}</Item.Meta>
+                            <Item.Meta>Created At: {item.createdAt}</Item.Meta>
+                            <Item.Meta>Last Updated At: {item.lastUpdatedAt}</Item.Meta>
                             <Item.Description>
-                                <div>{item.dueAt}</div>
+                                <div>Due At: {item.dueAt}</div>
                                 <div>{item.isComplete}</div>
                             </Item.Description>
                             <Item.Extra>
@@ -37,7 +36,7 @@ export default observer(function TodoList(){
                                    floated='right'
                                     content='Delete'
                                      color='red' />
-                                <Label basic content={item.categoryId} />
+                                <Label basic content={item.category} />
                             </Item.Extra>
                         </Item.Content>
                     </Item>

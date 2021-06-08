@@ -11,11 +11,13 @@ export default function TodoDetails(){
     return (
         <Card fluid>
             <Card.Content>
-                <Card.Header>{todoStore.selectedTodoItem!.title}</Card.Header>
-                <Card.Meta>
-                    <span className='date'>{todoStore.selectedTodoItem!.createdAt}</span>
+                <Card.Header style={{marginBottom:'10px'}}>{todoStore.selectedTodoItem!.title}</Card.Header>
+                <Card.Meta className='meta'>
+                    <div className='date' style={{color:'#333', marginLeft:'10px'}}>Created At: {todoStore.selectedTodoItem!.createdAt}</div>
+                    <div className='date' style={{color:'#333', marginLeft:'10px'}}>Last Updated At: {todoStore.selectedTodoItem!.lastUpdatedAt}</div>
+                    <div className='date' style={{color:'red', marginLeft:'10px'}}>Due Date: {todoStore.selectedTodoItem!.dueAt}</div>
                 </Card.Meta>
-                <Card.Description>{todoStore.selectedTodoItem!.description}</Card.Description>
+                <Card.Description height='5' className='description' style={{color:'#000', marginLeft:'10px'}}>{todoStore.selectedTodoItem!.description}</Card.Description>
             </Card.Content>
             <Card.Content extra>
                <Button.Group widths='2'>

@@ -2,7 +2,7 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
-using TIS.Todo.Data;
+using TIS.Todo.Application.Interfaces.IRepositories;
 using TIS.Todo.Domain.Models;
 
 namespace TIS.Todo.Application.UserTodos
@@ -16,18 +16,17 @@ namespace TIS.Todo.Application.UserTodos
 
         public class Handler : IRequestHandler<Query, Result<TodoItem>>
         {
-            private readonly DataContext _context;
+            private readonly IAsyncRepository<TodoItem> _toDoRepository;
 
-            public Handler(DataContext context)
+            public Handler(IAsyncRepository<TodoItem> toDoRepository)
             {
-                _context = context;
+                _toDoRepository = toDoRepository;
             }
 
 
             public async Task<Result<TodoItem>> Handle(Query request, CancellationToken cancellationToken)
             {
-                var todoItem = await _context.TodoItems.FindAsync(request.Id);
-
+                var todoItem = await _toDoRepository.GetByIdAsync(request.Id);
                 return Result<TodoItem>.Success(todoItem);
             }
         }

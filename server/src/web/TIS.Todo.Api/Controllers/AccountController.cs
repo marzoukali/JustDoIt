@@ -60,7 +60,8 @@ namespace TIS.Todo.Api.Controllers
             return new()
             {
                 Token = _tokenService.CreateToken(user),
-                Username = user.UserName
+                Username = user.UserName,
+                UserId = user.Id
             };
         }
     }

@@ -3,13 +3,22 @@ import { toast } from 'react-toastify';
 import { TodoItem } from '../models/todo-item';
 import {history} from '../../index'
 import { store } from '../stores/store';
+import { User, UserFormValues } from '../models/user';
+
 
 const sleep = (delay: number) => {
     return new Promise((resolve) => {
         setTimeout(resolve, delay)
     })
 }
-axios.defaults.baseURL = 'https://localhost:5301/api';
+axios.defaults.baseURL = 'https://localhost:44346/api';
+
+axios.interceptors.request.use(config => {
+    const token = store.commonStore.token;
+    if (token) config.headers.Authorization = `Bearer ${token}`
+    return config;
+})
+
 
 axios.interceptors.response.use(async res => {
         await sleep(1000);
@@ -57,15 +66,23 @@ const requests = {
 }
 
 const TodoItems = {
-    list: () => requests.get<TodoItem[]>('/UserTodos'),
-    details: (id: string) => requests.get<TodoItem>(`/UserTodos/${id}`),
-    create: (todoItem: TodoItem) => requests.post<void>('/UserTodos', todoItem),
-    update: (todoItem: TodoItem) => requests.put<void>(`/UserTodos/${todoItem.id}`, todoItem),
-    delete: (id: string) => requests.delete<void>(`/UserTodos/${id}`),
+    list: (userId: string) => requests.get<TodoItem[]>(`/${userId}/todos`),
+    details: (userId: string, id: string) => requests.get<TodoItem>(`/${userId}/todos/${id}`),
+    create: (userId: string, todoItem: TodoItem) => requests.post<void>(`${userId}/todos`, todoItem),
+    update: (userId: string, todoItem: TodoItem) => requests.put<void>(`${userId}/todos/${todoItem.id}`, todoItem),
+    delete: (userId: string, id: string) => requests.delete<void>(`/${userId}/todos/${id}`),
 }
 
+
+const Account = {
+    current: () => requests.get<User>('/account'),
+    login: (user: UserFormValues) => requests.post<User>('/account/login', user),
+}
+
+
 const agent = {
-    TodoItems
+    TodoItems,
+    Account
 }
 
 export default agent;

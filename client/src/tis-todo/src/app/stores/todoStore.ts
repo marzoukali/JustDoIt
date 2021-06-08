@@ -2,6 +2,7 @@ import {makeAutoObservable, runInAction} from 'mobx';
 import agent from '../api/agent';
 import { TodoItem } from '../models/todo-item';
 import {v4 as uuid} from 'uuid';
+import { useStore } from './store';
 
 
 export default class TodoStore{
@@ -16,16 +17,19 @@ export default class TodoStore{
         makeAutoObservable(this)
     }
 
+
+
     get todoItemsByCreatedDate(){
         return Array.from(this.todosRegistery.values()).sort((a, b) => Date.parse(a.createdAt) - Date.parse(b.createdAt));
     }
 
-    loadTodoItems = async () => {
+    loadTodoItems = async (userId: string) => {
         try{
-            const incomingTodoItems = await agent.TodoItems.list();
+            const incomingTodoItems = await agent.TodoItems.list(userId);
                 incomingTodoItems.forEach(item => {
                     item.createdAt = item.createdAt.split('T')[0];
                     item.dueAt = item.dueAt.split('T')[0];
+                    item.lastUpdatedAt = item.lastUpdatedAt.split('T')[0];
                     this.todosRegistery.set(item.id, item);
                 })
                 this.setLoadingInitial(false);
@@ -56,11 +60,13 @@ export default class TodoStore{
         this.editMode = false;
     }
 
-    createTodoItem = async(todoItem: TodoItem) => {
+    createTodoItem = async(userId: string, todoItem: TodoItem) => {
         this.loading = true;
         todoItem.id = uuid();
+        todoItem.createdAt = new Date().toISOString()
+        todoItem.lastUpdatedAt = new Date().toISOString()
         try{
-            await agent.TodoItems.create(todoItem);
+            await agent.TodoItems.create(userId, todoItem);
             runInAction(() => {
                 this.todosRegistery.set(todoItem.id, todoItem);
                 this.selectedTodoItem = todoItem;
@@ -75,12 +81,10 @@ export default class TodoStore{
         }
     }
 
-    updateTodoItem = async (todoItem: TodoItem) => {
+    updateTodoItem = async (userId: string,todoItem: TodoItem) => {
         this.loading = true;
         try{
-            console.log('test1');
-            console.log(todoItem);
-            await agent.TodoItems.update(todoItem);
+            await agent.TodoItems.update(userId, todoItem);
             runInAction(() => {
                 this.todosRegistery.set(todoItem.id, todoItem);
                 this.selectedTodoItem = todoItem;
@@ -96,10 +100,10 @@ export default class TodoStore{
     }
 
 
-    deleteTodoItem = async (id: string) => {
+    deleteTodoItem = async (userId: string, id: string) => {
         this.loading = true;
         try{
-            await agent.TodoItems.delete(id);
+            await agent.TodoItems.delete(userId, id);
             runInAction(() => {
                 this.todosRegistery.delete(id);
                 if(this.selectedTodoItem?.id === id)

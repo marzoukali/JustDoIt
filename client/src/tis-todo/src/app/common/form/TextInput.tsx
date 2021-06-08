@@ -7,7 +7,7 @@ interface Props {
     name: string;
     type?: string;
     label?: string;
-    onChange: any;
+    onChange?: any;
 }
 
 export default function TextInput(props: Props) {

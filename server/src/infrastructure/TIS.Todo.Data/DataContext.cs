@@ -17,6 +17,11 @@ namespace TIS.Todo.Data
         {
             builder.Entity<TodoItem>();
 
+            builder.Entity<TodoItem>()
+                .HasOne(x => x.User)
+                .WithMany(x => x.ToDos)
+                .HasForeignKey(x => x.UserId);
+
             base.OnModelCreating(builder);
         }
     }
