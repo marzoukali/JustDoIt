@@ -19,7 +19,7 @@ namespace TIS.Todo.Data
                     UserName = "test",
                     Email = "test@test.com",
                     Id = "faef4f78-fab3-4176-96f0-5cfa2f2beab8"
-                }, "Pwd123");
+                }, "pwd123");
 
 
                 if (userResult.Succeeded)
