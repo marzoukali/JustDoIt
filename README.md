@@ -29,8 +29,7 @@ Simple online TODO list.
 # How to setup
 - App should run without any issue on IIS or IIS Express
 - Make sure to run with VisualStudio 2017 or from command line (.NET Core Runtime should be installed)
-- Once the app run, it seed admin user and role to use it as admin (Can be changed from configurations)
-
+- Once the app run, it seeds a user with username: `test` and password `pwd123` and some todo items.
 
 # Setup the backend with VisualStudio:
 - Make sure to have Visual Studio that supports .Net Core.
