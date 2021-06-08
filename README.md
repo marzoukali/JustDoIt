@@ -21,19 +21,15 @@ Simple online TODO list.
 - The token is jwt and include some basic claims.
 - I decided to sign the token using Key `TokenKey` which you can find in the configs `appsettings.Development.json` instead of using certificate (Beacsuse the project scope but in reallife that should be certitifcate)
 - I decided to store the configs in appsettings.Development.json and this shouldn't pushed to the repo in reallife and i may use .net secret store to store all the secrets and use patterns to replace the keys in the pipeline.
-- Take a look to the got logs for more info (I used numbers in git commits as representing for jira tickets)
+- Take a look to the `git log` for more info (I used numbers in git commits as representing for jira tickets)
 
 # Testing:
 - I made some unit tests for backend and in real life we should cover all the business logic backend and frontend.
 
-# How to setup
-- App should run without any issue on IIS or IIS Express
-- Make sure to run with VisualStudio 2017 or from command line (.NET Core Runtime should be installed)
-- Once the app run, it seeds a user with username: `test` and password `pwd123` and some todo items.
-
 # Setup the backend with VisualStudio:
 - Make sure to have Visual Studio that supports .Net Core.
 - Make sure that the .Net 5 runtime installed.
+- Once the app run, it seeds a user with username: `test` and password `pwd123` and some todo items.
 - Open the solution from `server\src` folder.
 - Make sure to mark web > TIS.Todo.Api as Startup project
 - Restore Nuget Packages
