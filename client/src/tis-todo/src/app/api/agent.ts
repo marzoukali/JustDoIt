@@ -11,7 +11,7 @@ const sleep = (delay: number) => {
         setTimeout(resolve, delay)
     })
 }
-axios.defaults.baseURL = 'https://localhost:44346/api';
+axios.defaults.baseURL = process.env.REACT_APP_API_URL;;
 
 axios.interceptors.request.use(config => {
     const token = store.commonStore.token;

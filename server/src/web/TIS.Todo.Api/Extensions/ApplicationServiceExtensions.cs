@@ -32,7 +32,7 @@ namespace TIS.Todo.Api.Extensions
                     policy =>
                     {
                         policy.AllowAnyMethod().AllowAnyHeader()
-                            .WithOrigins("http://localhost:3000", "http://localhost:3001");
+                            .WithOrigins(config["CorsOrigins"].Split(','));
                     });
             });
 
