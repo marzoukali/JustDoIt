@@ -43,10 +43,15 @@ Simple online TODO list.
 - Note: If you wish you can use dotnet core command line commands to run the project. Also you can use VS Code.
 - After run the project make sure that you see the swagger documentation.
 
-# Setup the backend with VisualStudio:
+# Setup the clientside (React App):
 - Use VSCode or any preffered editor to open `client\src\tis-todo`
 - Make sure that you have nodejs and npm installed.
+-  `npm install`
 - from the terminal run: `npm start`
+
+Note: If you faced any issue related to the datepicket just run the below two lines in order:
+- `npm i --save react-datepicker`
+- `npm i --save-dev @types/react-datepicker`
 
 # Important:
 - Make sure that the backend APIs URL is set correctly at the config: `client\src\tis-todo\.env.development`
